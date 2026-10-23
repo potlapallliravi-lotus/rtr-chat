@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b6e8a"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+<title>Recruiter Desk Chat</title>
+<style>
+:root{--bg:#f5f6f8;--sf:#fff;--sf2:#f1f3f6;--ln:#e3e6eb;--fg:#0f172a;--mu:#64748b;--ac:#2563eb;--ah:#1d4ed8;--af:#fff;--rt:#92400e;--rb:#fef3c7;--ok:#047857;--ob:#d1fae5;--sh:0 1px 2px rgba(15,23,42,.05)}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0f17;--sf:#121826;--sf2:#182032;--ln:#243048;--fg:#e5e9f0;--mu:#8b98ad;--ac:#5b8def;--ah:#7aa2f7;--af:#0b0f17;--rt:#fbbf24;--rb:#3a2c0a;--ok:#6ee7b7;--ob:#0f2f24;--sh:none;color-scheme:dark}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.shell{height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+.bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--sf);border-bottom:1px solid var(--ln);padding:10px max(16px,calc((100% - 960px)/2))}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}.brand svg{flex:none}.brand b{display:block;font-size:15px;line-height:1.2}.brand span{display:block;font-size:12px;color:var(--mu)}
+.tabs{display:flex;gap:4px;background:var(--sf2);border-radius:10px;padding:3px}.tabs button{border:0;background:none;color:var(--mu);font:inherit;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--sf);color:var(--fg);box-shadow:0 0 0 1px var(--ln)}
+.act{display:flex;gap:8px;align-items:center}
+.btn,button.k,.chips button{border:1px solid var(--ln);background:var(--sf);color:var(--fg);border-radius:8px;padding:6px 12px;font:inherit;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn:hover,.chips button:hover{background:var(--sf2)}.btn.p,.go{background:var(--ac);border-color:var(--ac);color:var(--af);font-weight:600}.btn.p:hover,.go:hover{background:var(--ah)}
+.view{flex:1;min-height:0;width:100%;max-width:960px;margin:0 auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}.view[hidden]{display:none}
+main{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.me{align-self:flex-end;max-width:80%;background:var(--ac);color:var(--af);border-radius:12px 12px 2px 12px;padding:8px 13px}
+.bot{align-self:flex-start;max-width:94%;width:fit-content;background:var(--sf);border:1px solid var(--ln);box-shadow:var(--sh);border-radius:12px 12px 12px 2px;padding:10px 13px;overflow-wrap:anywhere}
+.ty{display:flex;gap:4px;padding:13px 14px}.ty i{width:6px;height:6px;border-radius:50%;background:var(--mu);animation:bl 1s infinite}.ty i:nth-child(2){animation-delay:.15s}.ty i:nth-child(3){animation-delay:.3s}@keyframes bl{50%{opacity:.25}}
+.job{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:11px 13px;margin-top:8px;box-shadow:var(--sh)}.job.t{border-left:3px solid var(--ok)}.bot .job{background:var(--sf2);box-shadow:none}
+.top{display:flex;justify-content:space-between;gap:10px}.top b{font-size:14.5px}.sub{color:var(--mu);font-size:12.5px}
+.b{display:inline-block;font-size:12px;padding:1px 8px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);margin:4px 4px 0 0;color:var(--mu)}.bot .b{background:var(--sf)}
+.b.r{background:var(--rb);color:var(--rt);border-color:transparent;font-weight:700;white-space:nowrap}.b.t{background:var(--ob);color:var(--ok);border-color:transparent;font-weight:600}
+details.m summary{cursor:pointer;color:var(--ac);font-weight:500;margin-top:6px}details.m ul{margin:4px 0 0;padding-left:18px}
+button.k{padding:1px 9px;font-size:12px;margin:4px 4px 0 0;color:var(--ac);border-radius:6px}
+.chips{display:flex;gap:6px;overflow-x:auto}.chips button{border-radius:999px;font-size:13px;padding:4px 12px}
+form{display:flex;gap:8px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:5px}
+input,select{background:var(--sf);color:var(--fg);border:1px solid var(--ln);border-radius:8px;padding:8px 11px;font:inherit}form input{flex:1;min-width:0;border:0;outline:0}
+.tool{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tool input[type=search]{flex:1 1 200px}.tool label{display:flex;gap:6px;align-items:center;color:var(--mu)}
+#jl{flex:1;overflow-y:auto;padding-bottom:8px}.empty{text-align:center;color:var(--mu);padding:36px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.st{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px 14px}
+.st b{display:block;font-size:24px;font-weight:700;letter-spacing:-.02em}.st span{font-size:12px;color:var(--mu)}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin-top:10px}.panel h3{margin:0 0 8px;font-size:13px;color:var(--mu);font-weight:600}
+.chart{display:flex;align-items:flex-end;gap:8px;height:90px}.bar1{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:11px;color:var(--mu);gap:3px}.bar1 i{display:block;width:100%;max-width:44px;background:var(--ac);border-radius:4px 4px 0 0;opacity:.85}
+.login{margin:8vh auto;width:min(420px,92vw);background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:22px;display:grid;gap:12px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
+.login label{font-size:12.5px;color:var(--mu);display:grid;gap:5px}.login h2{margin:0;font-size:18px}.login .go{padding:10px;border-radius:8px}.err{color:#dc2626;font-size:13px;min-height:18px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}.bar{gap:10px}.tabs{order:3;width:100%}.tabs button{flex:1}}
+</style></head><body><div class="shell"><header class="bar"><div class="brand"><svg width="30" height="30" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#2563eb"/><path d="M8 10h16v9H15l-5 4v-4H8z" fill="#fff"/></svg><div><b>Recruiter Desk</b><span id="sub">Private workspace</span></div></div>
+<nav class="tabs" id="tabs" hidden><button data-t="chat" aria-selected="true">Assistant</button><button data-t="jobs" aria-selected="false">Jobs</button><button data-t="ins" aria-selected="false">Insights</button></nav>
+<div class="act"><button class="btn p" id="sync" hidden>Check mail</button><button class="btn" id="out" hidden>Lock</button></div></header>
+<div id="login" class="login"><div><svg width="30" height="30" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#2563eb"/><path d="M8 10h16v9H15l-5 4v-4H8z" fill="#fff"/></svg></div><h2>Sign in to your desk</h2><div class="sub">Your data is decrypted only in this browser and is never sent anywhere except GitHub.</div>
+<label>Repository<input id="repo" placeholder="owner/repo-name" autocomplete="off"></label>
+<label>GitHub token (Contents: read, Actions: read and write)<input id="tok" type="password" autocomplete="off"></label>
+<label>DATA_KEY passphrase<input id="key" type="password" autocomplete="off"></label>
+<label style="display:flex;flex-direction:row;gap:8px;align-items:center"><input id="rem" type="checkbox" checked>Remember on this device</label>
+<button class="btn go" id="in">Open desk</button><div class="err" id="err" role="alert"></div></div>
+<section class="view" id="vchat" hidden><main id="log"></main><div class="chips" id="chips"></div>
+<form id="f"><input id="q" placeholder="Ask: today, rtr, remote over 60, python, digest…" autocomplete="off"><button class="btn go">Send</button></form></section>
+<section class="view" id="vjobs" hidden><div class="tool"><input type="search" id="js" placeholder="Search title, client, skills…"><select id="jm"><option value="">Any location</option><option>remote</option><option>hybrid</option><option>onsite</option></select>
+<select id="jo"><option value="new">Newest</option><option value="rate">Highest rate</option></select><label><input type="checkbox" id="jr">RTR only</label></div><div id="jl"></div></section>
+<section class="view" id="vins" hidden><div id="dbody"></div></section></div>
+<script>
+const $=i=>document.getElementById(i),E=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const S={c:null,d:null,busy:false},K="rtrchat";
+const store={get(){try{return JSON.parse(localStorage.getItem(K)||"null")}catch(e){return null}},set(v){try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}},del(){try{localStorage.removeItem(K)}catch(e){}}};
+const gh=async(p,o={})=>{const r=await fetch("https://api.github.com"+p,{...o,cache:"no-store",headers:{Authorization:"Bearer "+S.c.tok,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(o.headers||{})}});
+if(!r.ok)throw new Error(r.status===401?"GitHub rejected the token (401).":r.status===404?"Not found (404). Check the repo name, the token’s access, and that the data branch exists.":"GitHub error "+r.status);return r};
+async function decrypt(buf,pass){const b=new Uint8Array(buf),T=new TextEncoder();
+if(String.fromCharCode(...b.slice(0,8))!=="Salted__")throw new Error("Not an encrypted data file.");
+const km=await crypto.subtle.importKey("raw",T.encode(pass),"PBKDF2",false,["deriveBits"]);
+const bits=new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:b.slice(8,16),iterations:200000,hash:"SHA-256"},km,384));
+const k=await crypto.subtle.importKey("raw",bits.slice(0,32),"AES-CBC",false,["decrypt"]);
+let p;try{p=await crypto.subtle.decrypt({name:"AES-CBC",iv:bits.slice(32,48)},k,b.slice(16))}catch(e){throw new Error("Wrong DATA_KEY passphrase.")}
+return new Response(new Blob([p]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer()}
+function untar(buf){const u=new Uint8Array(buf),f={},td=new TextDecoder();let o=0;
+while(o+512<=u.length){const n=td.decode(u.slice(o,o+100)).replace(/\0.*$/s,"");if(!n)break;const z=parseInt(td.decode(u.slice(o+124,o+136)).replace(/\0.*$/s,"").trim()||"0",8);
+f[n.replace(/^\.\//,"")]=u.slice(o+512,o+512+z);o+=512+Math.ceil(z/512)*512}return f}
+async function load(){const r=await gh(`/repos/${S.c.repo}/contents/data.enc?ref=data`,{headers:{Accept:"application/vnd.github.raw+json"}});
+const f=untar(await decrypt(await r.arrayBuffer(),S.c.key));if(!f["jobs.json"])throw new Error("jobs.json is not in your data yet. Run the workflow once after updating the code.");
+S.d=JSON.parse(new TextDecoder().decode(f["jobs.json"]));dash();if($("jl"))jobsView()}
+const tz=()=>S.d.tz||"America/Chicago",day=(o=0)=>new Date(Date.now()-o*864e5).toLocaleDateString("en-CA",{timeZone:tz()});
+const rateN=j=>{const n=(j.rate||"").match(/\d+(?:\.\d+)?/g);return n?Math.max(...n.map(Number)):0};
+function add(cls,h){const m=document.createElement("div");m.className=cls;m.innerHTML=h;$("log").appendChild(m);$("log").scrollTop=$("log").scrollHeight}
+const card=j=>`<div class="job${j.rtr?" t":""}"><div class="top"><b>${E(j.title)}</b>${j.rate?`<span class="b r">${E(j.rate)}</span>`:""}</div>${j.rtr?'<span class="b t">RTR</span>':""}${j.work_mode?`<span class="b">${E(j.work_mode)}</span>`:""}${j.location?`<span class="b">${E(j.location)}</span>`:""}${j.employment_type?`<span class="b">${E(j.employment_type)}</span>`:""}<div class="sub">${E(j.company?j.company+" · ":"")}${E(j.date)} ${E(j.time)} · ${E(j.account)}${j.recruiter?" · "+E(j.recruiter):""}</div><div>${E(j.summary)}</div>${(j.responsibilities||[]).length||(j.skills||[]).length?`<details class="m"><summary>Details</summary>${(j.responsibilities||[]).length?"<ul>"+j.responsibilities.map(x=>`<li>${E(x)}</li>`).join("")+"</ul>":""}<div>${(j.skills||[]).map(x=>`<button class="k" data-k="${E(x)}">${E(x)}</button>`).join("")}</div></details>`:""}</div>`;
+function dash(){if(!S.d)return;const D=S.d,t=day(),rs=D.jobs.map(rateN).filter(Boolean),days=[...Array(7)].map((_,i)=>day(6-i)),n=days.map(d=>D.jobs.filter(j=>j.date===d).length),mx=Math.max(1,...n),sk={};
+D.jobs.forEach(j=>(j.skills||[]).forEach(x=>sk[x]=(sk[x]||0)+1));const top=Object.entries(sk).sort((a,b)=>b[1]-a[1]).slice(0,8);
+$("dbody").innerHTML=`<div class="stats"><div class="st"><b>${D.jobs.length}</b><span>Saved</span></div><div class="st"><b>${D.jobs.filter(j=>j.date===t).length}</b><span>Today</span></div><div class="st"><b>${D.jobs.filter(j=>j.rtr).length}</b><span>RTR</span></div><div class="st"><b>${rs.length?"$"+Math.round(rs.reduce((a,b)=>a+b)/rs.length):"-"}</b><span>Avg rate/hr</span></div></div><div class="panel"><h3>Jobs per day, last 7 days</h3><div class="chart">${n.map((c,i)=>`<div class="bar1" title="${days[i]}: ${c}">${c}<i style="height:${Math.max(3,c/mx*60)}px"></i>${days[i].slice(5)}</div>`).join("")}</div></div>${top.length?`<div class="panel"><h3>Top skills (tap to search)</h3>`+top.map(([k,c])=>`<button class="k" data-k="${E(k)}">${E(k)} · ${c}</button>`).join("")+"</div>":""}`;
+const a=D.last_fetch_at?new Date(D.last_fetch_at*1000).toLocaleTimeString("en-US",{timeZone:tz(),hour:"numeric",minute:"2-digit"}):"";$("sub").textContent=a?"Last mailbox check "+a:"Private workspace"}
+function digest(date){const L=S.d.jobs.filter(j=>j.date===date).reverse();if(!L.length)return `No RTR or rate emails for ${E(date)}.`;
+return `<b>Digest for ${E(date)}: ${L.length} job${L.length>1?"s":""}, ${L.filter(j=>j.rtr).length} RTR</b>`+L.map(card).join("")}
+async function check(){if(S.busy)return add("bot","Already running.");S.busy=true;try{
+const ref=(await(await gh("/repos/"+S.c.repo)).json()).default_branch,t0=Date.now()-5000;
+await gh(`/repos/${S.c.repo}/actions/workflows/rtrdesk.yml/dispatches`,{method:"POST",body:JSON.stringify({ref})});add("bot","Mailbox check started. This usually takes under a minute.");
+for(let i=0;i<24;i++){await new Promise(r=>setTimeout(r,6000));const w=(await(await gh(`/repos/${S.c.repo}/actions/runs?event=workflow_dispatch&per_page=1`)).json()).workflow_runs[0];
+if(w&&Date.parse(w.created_at)>=t0&&w.status==="completed"){await load();return add("bot",w.conclusion==="success"?"Done. Data refreshed. Ask <i>today</i> to see new jobs.":"The run finished with: "+E(w.conclusion)+". Open the Actions tab for details.")}}
+add("bot","Still running. Say <i>refresh</i> in a minute.")}catch(e){add("bot",E(e.message))}finally{S.busy=false}}
+function ask(t){const q=t.trim();if(!q)return;add("me",E(q));const y=document.createElement("div");y.className="bot ty";y.innerHTML="<i></i><i></i><i></i>";$("log").appendChild(y);$("log").scrollTop=1e9;setTimeout(()=>{y.remove();run(q)},300)}
+function run(q){const l=q.toLowerCase();const D=S.d;
+if(/^\/?help$|^\?$/.test(l))return add("bot","Try: <i>today</i>, <i>yesterday</i>, <i>rtr</i>, <i>remote</i>, <i>rate over 60</i>, <i>python senior</i>, <i>digest</i>, <i>digest 2026-10-21</i>, <i>status</i>, <i>refresh</i>, <i>check mail</i>. Words combine, e.g. <i>remote rtr java over 70</i>.");
+if(/^\/?(check|fetch|run)\b/.test(l)||/check (my )?(mail|inbox)/.test(l))return check();
+if(/^\/?(refresh|reload|sync)$/.test(l))return load().then(()=>add("bot","Reloaded: "+D.jobs.length+" jobs saved."),e=>add("bot",E(e.message)));
+if(/^\/?status$/.test(l)){const a=D.last_fetch_at?new Date(D.last_fetch_at*1000).toLocaleString("en-US",{timeZone:tz(),hour:"numeric",minute:"2-digit",month:"short",day:"numeric"}):"unknown";
+return add("bot",`${D.jobs.length} jobs saved, ${D.jobs.filter(j=>j.date===day()).length} today. Last mailbox check: ${E(a)} (${D.last_fetch_new||0} new). Mailboxes: ${E(D.accounts.join(", "))}.`)}
+let m=l.match(/^\/?digest\s*(\d{4}-\d{2}-\d{2})?$/);if(m)return add("bot",digest(m[1]||day()));
+let min=0,rm=l.match(/(?:over|above|min|at least|>)\s*\$?(\d+)|\$(\d+)/);if(rm){min=+(rm[1]||rm[2]);}
+let w=l.replace(/(?:over|above|min|at least|>)\s*\$?\d+|\$\d+/g," ").replace(/[^a-z0-9.+#\- ]/g," ").split(/\s+/).filter(Boolean),date=null,rtr=false,mode=null,kw=[];
+for(const x of w){
+if(x==="today")date=day();else if(x==="yesterday")date=day(1);else if(/^\d{4}-\d{2}-\d{2}$/.test(x))date=x;
+else if(x==="rtr")rtr=true;else if(/^(remote|onsite|hybrid)$/.test(x))mode=x;
+else if(!/^(show|me|jobs|job|all|list|the|a|for|with|and|in|any|latest|new|find|search|rate|hr|hour)$/.test(x))kw.push(x)}
+let L=D.jobs.filter(j=>(!date||j.date===date)&&(!rtr||j.rtr)&&(!mode||(j.work_mode||"").toLowerCase().includes(mode)||(j.location||"").toLowerCase().includes(mode))&&(!min||rateN(j)>=min)&&kw.every(k=>[j.title,j.company,j.location,j.skills.join(" "),j.summary,j.recruiter,j.subject].join(" ").toLowerCase().includes(k)));
+if(!L.length)return add("bot","No matching jobs. Say <i>help</i> for ideas.");
+add("bot",`${L.length} job${L.length>1?"s":""} found${L.length>8?", showing the latest 8":""}.`+L.slice(0,8).map(card).join(""))}
+function tab(t){S.t=t;for(const v of["chat","jobs","ins"])$("v"+v).hidden=v!==t;document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t));if(t==="jobs")jobsView();if(t==="ins")dash()}
+function jobsView(){if(!S.d)return;const q=$("js").value.toLowerCase().trim(),m=$("jm").value,r=$("jr").checked;let L=S.d.jobs.filter(j=>(!r||j.rtr)&&(!m||((j.work_mode||"")+(j.location||"")).toLowerCase().includes(m))&&(!q||[j.title,j.company,j.location,(j.skills||[]).join(" "),j.summary,j.recruiter,j.account].join(" ").toLowerCase().includes(q)));
+if($("jo").value==="rate")L=L.slice().sort((a,b)=>rateN(b)-rateN(a));
+$("jl").innerHTML=L.length?`<div class="sub" style="margin:4px 2px">${L.length} job${L.length>1?"s":""}${L.length>60?", showing 60":""}</div>`+L.slice(0,60).map(card).join(""):'<div class="empty">No jobs match these filters.</div>'}
+function show(){$("login").hidden=true;$("err").textContent="";for(const i of["tabs","sync","out"])$(i).hidden=false;tab("chat");dash();
+$("chips").innerHTML=["today","rtr","remote","digest","status","help"].map(x=>`<button>${x}</button>`).join("");
+add("bot",`Welcome back. ${S.d.jobs.length} jobs saved. Ask <i>today</i>, <i>rtr</i>, or something like <i>python over 60</i>.`)}
+async function open(c,keep){$("err").textContent="Decrypting…";S.c=c;try{await load();if(keep)store.set(c);show()}catch(e){$("err").textContent=e.message;$("login").hidden=false;S.c=null}}
+$("in").onclick=()=>{const c={repo:$("repo").value.trim(),tok:$("tok").value.trim(),key:$("key").value};if(!/^[\w.-]+\/[\w.-]+$/.test(c.repo)||!c.tok||!c.key)return $("err").textContent="Fill in all three fields.";open(c,$("rem").checked)};
+$("f").onsubmit=e=>{e.preventDefault();const v=$("q").value;$("q").value="";ask(v)};
+$("chips").onclick=e=>{if(e.target.tagName==="BUTTON")ask(e.target.textContent)};
+document.addEventListener("click",e=>{const k=e.target.closest("button.k"),t=e.target.closest("#tabs button");if(t)return tab(t.dataset.t);if(!k)return;if(S.t==="jobs"){$("js").value=k.dataset.k;jobsView()}else{tab("chat");ask(k.dataset.k)}});
+for(const i of["js","jm","jo","jr"])$(i).oninput=jobsView;$("sync").onclick=()=>{tab("chat");ask("check mail")};
+$("out").onclick=()=>{store.del();location.reload()};
+const saved=store.get();if(saved)open(saved,true);
+</script></body></html>
